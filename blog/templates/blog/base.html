@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Список объявлений</title>
+    <title>{{title}}</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
@@ -29,8 +29,10 @@
                 <li><a href="#">Категории</a></li>
             </ul>
         </aside>
+        <section class="main-content">
         {% block content%}
         {% endblock content%}
+        </section>
         <aside class="ad-space">
             <h3>Реклама</h3>
             <img src="{% static 'images/advertising.jpg' %}" alt="Реклама">

@@ -1,18 +1,14 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
-<section class="main-content">
-    <h2>Последние посты</h2>
-    <div class="post-list">
-        {% for post in latest_posts %}
-        <article class="post">
-            <h3><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
-            <p>{{ post.excerpt }}</p>
-            <p><small>Опубликовано: {{ post.published_date }}</small></p>
-        </article>
-        {% empty %}
-        <p>Пока нет опубликованных постов.</p>
-        {% endfor %}
-    </div>
-</section>
+<h2>Последние посты</h2>
+<div class="post-list">
+    {% for post in posts %}
+        <h3><b>{{ post.author }}</b></h3>
+        <h4>{{ post.title }}</h4>
+        <p>{{ post.text }}</p>
+        <p>{{ post.created_at }}</p>
+    {% endfor %}
+</div>
+
 {% endblock content %}
