@@ -1,0 +1,12 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+<div class="post-list">
+    <h2>Информация о посте № {{post.pk}}</h2>
+    <b>{{ post.author }}</b>
+    <hr>
+    <h3>{{ post.title }}</h3>
+    <p>{{ post.text }}</p>
+    <p>{{ post.created_ad }}</p>
+</div>
+{% endblock content %}
