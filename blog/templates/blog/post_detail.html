@@ -8,5 +8,19 @@
     <h3>{{ post.title }}</h3>
     <p>{{ post.text }}</p>
     <p>{{ post.created_ad }}</p>
+    <div class='btn-actions'>
+        {%comment%}
+        <div class='btn-edit-post'>
+            <a href="{%url 'blog:update_post' pk =post.id%}">
+                <button type="button">Редактировать</button>
+            </a>
+        </div>
+        {%endcomment%}
+        <div class='btn-del-post'>
+            <a href="{%url 'blog:delete_post' pk=post.id%}">
+                <button type="button">Удалить</button>
+            </a>
+        </div>
+        </div>
 </div>
 {% endblock content %}
