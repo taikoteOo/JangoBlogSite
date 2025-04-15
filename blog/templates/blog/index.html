@@ -1,10 +1,17 @@
 {% extends 'blog/base.html' %}
+{% load static %}
+
 
 {% block content %}
 <h2>Последние посты</h2>
 <div class="post-list">
     {% for post in posts %}
         <h3><b>{{ post.author }}</b></h3>
+        {% if post.image %}
+            <img src="{{post.image.url}}" width="150px" height="auto">
+        {% else %}
+            <img src="{% static 'images/no_image.jpg' %}" width="150px" height="auto">
+        {% endif %}
         <h4><a href="{{post.get_absolute_url}}">{{ post.title }}</a></h4>
         <p>{{ post.text }}</p>
         <p>{{ post.created_at }}</p>

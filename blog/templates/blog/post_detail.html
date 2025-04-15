@@ -1,4 +1,5 @@
 {% extends 'blog/base.html' %}
+{% load static %}
 
 {% block content %}
 <div class="post-list">
@@ -6,6 +7,11 @@
     <b>{{ post.author }}</b>
     <hr>
     <h3>{{ post.title }}</h3>
+    {% if post.image %}
+        <img src="{{post.image.url}}" width="200px" height="auto">
+    {% else %}
+        <img src="{% static 'images/no_image.jpg' %}" width="200px" height="auto">
+    {% endif %}
     <p>{{ post.text }}</p>
     <p>{{ post.created_ad }}</p>
     <div class='btn-actions'>
