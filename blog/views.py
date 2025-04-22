@@ -1,17 +1,31 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 from .forms import PostForm
 from .models import Post
 
 
 def index(request):
-    # Получение всех постов (select * from blog_post)
-    posts = Post.objects.all()
-    context = {'title': 'Главная страница', 'posts': posts}
+    # Получение всех постов, отсортированных по дате публикации (select * from blog_post order by created_at DESC)
+    posts = Post.objects.all().order_by('-created_at')
+    count_posts = Post.objects.count()
+    # Показываем по 3 поста на странице
+    per_page = 3
+    paginator = Paginator(posts, per_page)
+    #Получаем номер страницы из url
+    page_number = request.GET.get('page')
+    # Получаем объекты для текущей страницы
+    page_obj = paginator.get_page(page_number)
+    context = {
+        'title': 'Главная страница',
+        'page_obj': page_obj,
+        'count_posts': count_posts
+    }
     return render(request, template_name='blog/index.html', context=context)
 
 def about(request):
-    context = {'title': 'О сайте'}
+    count_posts = Post.objects.count()
+    context = {'title': 'О сайте', 'count_posts': count_posts}
     return render(request, template_name='blog/about.html', context=context)
 
 @login_required
