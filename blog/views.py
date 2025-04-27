@@ -31,18 +31,18 @@ def about(request):
 @login_required
 def add_post(request):
     if request.method == 'GET':
-        post_form = PostForm()
+        post_form = PostForm(author=request.user)
         context = {'form': post_form, 'title': 'Добавить пост'}
         return render(request, template_name='blog/post_add.html', context=context)
     if request.method == 'POST':
-        post_form = PostForm(data = request.POST, files=request.FILES)
+        post_form = PostForm(data = request.POST, files=request.FILES, author=request.user)
         if post_form.is_valid():
-            post = Post()
-            post.title = post_form.cleaned_data['title']
-            post.text = post_form.cleaned_data['text']
-            post.author = post_form.cleaned_data['author'] # request.user
-            post.image = post_form.cleaned_data['image']
-            post.save()
+            # post = Post()
+            # post.title = post_form.cleaned_data['title']
+            # post.text = post_form.cleaned_data['text']
+            # post.author = post_form.cleaned_data['author'] # request.user
+            # post.image = post_form.cleaned_data['image']
+            post_form.save()
             return index(request)
 
 def read_post(request, slug):
@@ -57,6 +57,7 @@ def update_post(request, slug):
     if request.method == 'POST':
         post_form = PostForm(data=request.POST, files=request.FILES)
         if post_form.is_valid():
+
             post.title = post_form.cleaned_data['title']
             post.text = post_form.cleaned_data['text']
             post.author = post_form.cleaned_data['author']  # request.user

@@ -23,7 +23,11 @@
             </ul>
         </nav>
     </header>
-
+    {% if messages %}
+        {% for message in messages %}
+        <div class="message">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
     <main>
         <aside class="sidebar">
             <ul>

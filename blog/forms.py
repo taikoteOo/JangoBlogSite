@@ -11,9 +11,20 @@ from .models import Post
 
 
 class PostForm(forms.ModelForm):
+    # Дополняем конструктор родительского класса
+    def __init__(self, *args, **kwargs):
+        # Получаем author из именнованных элементов (его передали во views)
+        author =  kwargs.pop('author')
+        # Вызываем конструктор родительского
+        super().__init__(*args, **kwargs)
+        # Устанавливаем начальное знаечение поля author
+        self.fields['author'].initial = author
+        # Отключаем видимость это поля в форме
+        self.fields['author'].disable = True
+        self.fields['author'].widget = forms.HiddenInput()
     class Meta:
         model = Post
-        fields = ('title', 'text', 'image') # поля, которые используется
+        fields = ('title', 'text', 'image', 'author') # поля, которые используется
         # exclude = ('author', 'created_ad') # поля, которые не используются (выбрать что-то одно)
 
         labels = {
