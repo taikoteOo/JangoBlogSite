@@ -55,7 +55,7 @@ def read_post(request, slug):
 def update_post(request, slug):
     post = get_object_or_404(Post, slug=slug)
     if request.method == 'POST':
-        post_form = PostForm(data=request.POST, files=request.FILES)
+        post_form = PostForm(data = request.POST, files=request.FILES, author=request.user)
         if post_form.is_valid():
 
             post.title = post_form.cleaned_data['title']
@@ -67,10 +67,10 @@ def update_post(request, slug):
     else:
         post_form = PostForm(initial={
             'title': post.title,
-            'author': post.author,
+
             'text': post.text,
             'image': post.image,
-        })
+        }, author=request.user)
         return render(request, template_name='blog/post_edit.html', context={'form': post_form})
 
 @login_required
