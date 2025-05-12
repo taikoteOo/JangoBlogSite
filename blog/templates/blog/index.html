@@ -1,12 +1,18 @@
 {% extends 'blog/base.html' %}
 {% load static %}
-
-
 {% block content %}
+<form action="" method="get">
+    <input type="search" name="query">
+    <button type="submit">Поиск</button>
+</form>
 <h2>Последние посты</h2>
 <div class="post-list">
     {% for post in page_obj %}
-        <h3><b>{{ post.author }}</b></h3>
+        <div>
+            <a href="{% url 'blog:user_posts' user_id=post.author.pk %}">
+                <h3><b>{{ post.author }}</b></h3>
+            </a>
+        </div>
         {% if post.image %}
             <img src="{{post.image.url}}" width="150px" height="auto">
         {% else %}
