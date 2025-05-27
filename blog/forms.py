@@ -32,3 +32,7 @@ class PostForm(forms.ModelForm):
             'text': 'Текст поста',
             'image': 'Изображение'
         }
+
+class FilterForm(forms.Form):
+    author = forms.MultipleChoiceField(choices=User.objects.all(), lable='Автор')
+    created_at = forms
