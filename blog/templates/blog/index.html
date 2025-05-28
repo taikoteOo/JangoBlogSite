@@ -1,13 +1,18 @@
 {% extends 'blog/base.html' %}
 {% load static %}
+{% load custom_tags %}
 {% block content %}
 <form action="{% url 'blog:search_post' %}" method="get">
     <input type="search" name="query">
     <button type="submit">Поиск</button>
 </form>
+<form action="{% url 'blog:filter_post' %}" method="get">
+    {{filter_form.as_p}}
+    <button type="submit">Фильтровать</button>
+</form>
 <h2>{{post_text}}</h2>
 {% if page_obj|length == 0 %}
-    <h1>По вашему запросу ничего не найдено!</h1>
+    <h3>По вашему запросу ничего не найдено!</h3>
 {% else %}
     <div class="post-list">
         {% for post in page_obj %}
@@ -36,7 +41,7 @@
                 Страница {{page_obj.number}} из {{page_obj.paginator.num_pages}}
             </span>
             {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number}}">Следующая</a>
+                <a href="?{% url_replace request 'page' page_obj.next_page_number %}">Следующая</a>
                 <a href="?page={{page_obj.paginator.num_pages}}">Последняя&raquo;</a>
             {% endif %}
         </span>

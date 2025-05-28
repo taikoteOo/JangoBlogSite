@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.db.models import Q
-from .forms import PostForm
+from .forms import PostForm, FilterForm
 from .models import Post
 
 
@@ -18,11 +18,13 @@ def index(request):
     page_number = request.GET.get('page')
     # Получаем объекты для текущей страницы
     page_obj = paginator.get_page(page_number)
+    filter_form = FilterForm()
     context = {
         'title': 'Главная страница',
         'page_obj': page_obj,
         'count_posts': count_posts,
-        'post_text': 'Последние посты'
+        'post_text': 'Последние посты',
+        'filter_form': filter_form
     }
     return render(request, template_name='blog/index.html', context=context)
 
@@ -123,5 +125,31 @@ def search_post(request):
         'page_obj': page_obj,
         'count_posts': count_posts,
         'post_text': 'Результаты поиска'
+    }
+    return render(request, template_name='blog/index.html', context=context)
+
+def filter_post(request):
+    author_id = request.GET.get('author')
+    if not author_id:
+        results = Post.objects.all()
+    else:
+        author = User.objects.get(pk=author_id)
+        query_text = Q(author__exact=author)
+        results = Post.objects.filter(query_text)
+
+    per_page = 3
+    paginator = Paginator(results, per_page)
+    # Получаем номер страницы из url
+    page_number = request.GET.get('page')
+    # Получаем объекты для текущей страницы
+    page_obj = paginator.get_page(page_number)
+    count_posts = results.count()
+    filter_form = FilterForm()
+    context = {
+        'title': 'Главная страница',
+        'page_obj': page_obj,
+        'count_posts': count_posts,
+        'post_text': 'Результаты поиска',
+        'filter_form': filter_form
     }
     return render(request, template_name='blog/index.html', context=context)
